@@ -1,0 +1,22 @@
+ja:
+  activerecord:
+    models:
+      task: タスク
+    attributes:
+      task:
+        id: ID
+        subject: 件名
+        status: ステータス
+        priority: 優先度
+        deadline: 期限
+  enums:
+    task:
+      status:
+        unstarted: 未着手
+        ongoing: 進行中
+        finished: 完了
+      priority:
+        low: 低
+        middle: 中
+        high: 高
+        highest: 最高

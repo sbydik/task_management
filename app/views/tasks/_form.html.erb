@@ -1,0 +1,39 @@
+<%= form_with(model: task, local: true) do |f| %>
+<% if task.errors.any? %>
+<div id="error_explanation" class="alert alert-danger">
+  <ul>
+    <% task.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="field form-group">
+  <%= f.label :subject %>
+  <%= f.text_field :subject, {id: :task_subject, class: 'form-control'} %>
+</div>
+
+<div class="field form-group">
+  <%= f.label :priority %>
+  <%= f.collection_radio_buttons :priority, generate_task_priorities_i18n, :last, :first, {checked: task.priority_before_type_cast || 0, include_hidden: false}  do |priority| %>
+  <div class="form-check form-check-inline">
+    <%= priority.radio_button(class: "form-check-input")%>
+    <%= priority.label(class: "form-check-label")%>
+  </div>
+  <% end %>
+</div>
+
+<div class="field form-group">
+  <%= f.label :deadline %>
+  <%= f.datetime_select :deadline, id: :task_deadline, use_month_numbers: true %>
+</div>
+
+<div class="field form-group">
+  <% if task.id %>
+  <%= f.submit '更新', {class: 'btn btn-outline-success'} %>
+  <% else %>
+  <%= f.submit '登録', {class: 'btn btn-outline-success'} %>
+  <% end %>
+</div>
+<% end %>

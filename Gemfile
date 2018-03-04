@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.5'
 # Use sqlite3 as the database for Active Record
@@ -32,6 +31,17 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+# mysqlを扱うために追加
+gem 'mysql2'
+
+# bootstrapを扱うために追加
+gem 'bootstrap', '~> 4.0.0.beta2.1'
+gem 'jquery-rails'
+
+# 日本語対応するために追加
+gem 'rails-i18n'
+gem 'enum_help'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

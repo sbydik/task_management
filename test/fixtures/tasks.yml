@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subject: テスト1
+  status: 0
+  priority: 0
+  deadline: 2018-03-01 12:00:00
+
+two:
+  subject: テスト2
+  status: 0
+  priority: 1
+  deadline: 2018-03-31 12:00:00
+
+three:
+  subject: テスト3
+  status: 1
+  priority: 2
+  deadline: 2018-03-15 15:30:00
+
+four:
+  subject: テスト4
+  status: 2
+  priority: 3
+  deadline: 2018-03-01 12:00:00

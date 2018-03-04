@@ -1,0 +1,68 @@
+<% if notice %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <%= notice %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% end %>
+
+<h1>タスク一覧</h1>
+
+<%= form_for @search_form, url: {action: :index}, method: :get, html: { enforce_utf8: false } do |f| %>
+<div class="form-group">
+  <%= f.label "件名" %>
+  <%= f.text_field :keyword, {name: :keyword}%>
+</div>
+
+<div class="form-group">    
+  <%= f.collection_check_boxes(:statuses, generate_task_statuses_i18n, :last, :first, {multiple: true, checked:@search_form.  statuses, include_hidden: false}, {name: 'statuses[]'}) do |status| %>
+  <%= status.label class:"label-checkbox" do%>
+  <div class="form-check form-check-inline">
+    <%= status.check_box(class: "form-check-input")%>
+    <%= status.label(class: "form-check-label")%>
+  </div>
+  <% end %>
+  <% end %>
+</div>
+
+<div class="form-group">    
+  <%= f.submit "検索", {name: nil, class: 'btn btn-outline-dark'} %>
+</div>
+<% end %>
+
+<%= form_tag(update_task_status_path, method: :post, html: { enforce_utf8: false }) do %>
+<table class="table table-hover table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th>ステータス</th>
+      <th>期限</th>
+      <th>優先度</th>
+      <th>件名</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @tasks.each do |task| %>
+    <tr<% if !task.finished? && format_datetime(task.deadline) < format_datetime(DateTime.now) %> class="table-danger" <% end %>>
+    <td style="width: 150px;">
+      <%= select_tag "update_task_status[status][#{task.id}]", options_for_select(generate_task_statuses_i18n, {selected: task.status_before_type_cast}), {class: 'form-control'} %>
+    </td>
+    <td style="width: 180px;"><%= format_datetime(task.deadline) %>
+    </td>
+    <td style="width: 75px;" class="text-center"><%= task.priority_i18n %></td>
+    <td><%= task.subject %></td>
+    <td style="width: 50px;" class="text-center"><%= link_to '更新', edit_task_path(task), {class: 'btn btn-outline-dark'} %></td>
+    <td style="width: 50px;" class="text-center"><%= link_to '削除', task, {method: :delete, class: 'btn btn-outline-danger', data: { confirm: '本当に削除しますか?' }} %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+<%= hidden_field_tag 'update_task_status[search_queries]', @search_queries %>
+
+<%= submit_tag 'ステータスを一括更新', {name: nil, class: 'btn btn-outline-dark'} %>
+<%= link_to '新規作成', new_task_path, {class: 'btn btn-outline-success'} %>
+<% end %>
+
+<br>
